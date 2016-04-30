@@ -5,9 +5,9 @@ _tabversion = '3.8'
 
 _lr_method = 'LALR'
 
-_lr_signature = '7070B0602197EF9B962F282A69BE348D'
+_lr_signature = 'BD4A9338C8FDBB57387739C75DF2E856'
     
-_lr_action_items = {'NUMBER':([0,],[1,]),'$end':([1,2,],[-1,0,]),}
+_lr_action_items = {'OPERATOR':([1,],[3,]),'IDENTIFIER':([0,],[1,]),'NUMBER':([3,],[4,]),'$end':([2,4,],[0,-1,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -26,5 +26,5 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> exp","S'",1,None,None,None),
-  ('exp -> NUMBER','exp',1,'p_exp_call','autoprojparser.py',39),
+  ('exp -> IDENTIFIER OPERATOR NUMBER','exp',3,'p_exp_call','myparser.py',80),
 ]
