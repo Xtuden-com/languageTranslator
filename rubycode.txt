@@ -1,3 +1,4 @@
- i = 13
- 
-arr.each do |t|
+ing = [13, 45,56]
+ing.each do |vcvt|
+ puts i
+end
