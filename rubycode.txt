@@ -1,4 +1,22 @@
-ing = [13, 45,56]
-ing.each do |vcvt|
- puts i
+r=32
+er="as"
+ert=345
+sdf=4534
+sdf=er
+puts 345
+
+i =13
+j=23.67
+array.each do |w|
+    puts "90"
+    puts 898
+    kjk=234
 end
+
+ytry="787"
+
+for r in 1..32
+    puts 3
+    puts "fs"
+end
+p=898+78

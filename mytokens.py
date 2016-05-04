@@ -1,3 +1,6 @@
+# This is a tokenizer of the automata project. I have covered iterator and for loop. 
+# I have used many tokens and conditions like floating numbers, possible statement positions
+# assignment statements of string, identifier or another variable
 import ply.lex as lex
 
 tokens = (
@@ -7,18 +10,28 @@ tokens = (
         'SPACE',
         # 'ASSIGNMENT',
         'ARRAYEACH',
+        'FOR',
+        'IN',
+        'DOTS',
         'DO',
         'LOOPVAR',
         'PUTS',
         'END',
+        'STRING',
         'COMMA',
         'IDENTIFIER',
         'NUMBER',
+        'EQUAL',
         'OPERATOR',
         'LEFTBRACKET',
         'RIGHTBRACKET',
 )
 
+
+def t_DOTS(t):
+        r'\.\.'
+        return t
+        
 
 t_ignore = ' \t\v\r' # whitespace
 
@@ -60,6 +73,14 @@ def t_SPACE(t):
 def t_ARRAYEACH(t):
         r'[A-Za-z][A-Za-z_]*\.each'
         return t
+        
+def t_FOR(t):
+        r'for'
+        return t
+def t_IN(t):
+        r'in'
+        return t
+
 def t_DO(t):
         r'do'
         return t
@@ -73,6 +94,11 @@ def t_END(t):
         r'end'
         return t        
         
+def t_STRING(t):
+        r'"[^"]*"'
+        # r'"["]*"'
+        t.value = t.value[1:-1] # drop "surrounding quotes"
+        return t
         
 # def t_LISTITEM(t):
 #         r'[0-9]+[,]?'
@@ -92,11 +118,17 @@ def t_IDENTIFIER(t):
         return t
         
 def t_NUMBER(t):
-        r'[0-9]+'
+        r'-?[0-9]+(?:\.[0-9]+)?'
+        t.value = float(t.value)
+
+        return t
+        
+def t_EQUAL(t):
+        r'='
         return t
         
 def t_OPERATOR(t):
-        r'[<|>|==|=|!=|+|-]'
+        r'[<|>|==|!=|+|-]'
         return t
 
 def t_LEFTBRACKET(t):
@@ -109,7 +141,6 @@ def t_RIGHTBRACKET(t):
 
 def t_error(t):
         pass
-
 
 
 def fileread():
