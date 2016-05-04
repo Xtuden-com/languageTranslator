@@ -84,7 +84,7 @@ def p_exp_val_id(p):
 
 def p_exp_val_op(p):
     'val : val OPERATOR val'
-    p[0]=(p[2], p[1],p[3])
+    p[0]=("binop", p[1],p[2],p[3])
 
 # def p_exp_number(p):
 #     'exp : NUMBER'
@@ -117,8 +117,16 @@ def fileread():
         f.closed
         return read_data
 
+def update_env(environment, var, val):
+    environment[var]=val
+    
+def env_lookup(environment, var):
+    if var in environment:
+        return environment[var]
+    else:
+        return None
 
-def eval_exp(tree):
+def eval_exp(environment, tree):
     # ("number" , "5")
     # ("binop" , ... , "+", ... )
     nodetype = tree[0]
@@ -127,12 +135,20 @@ def eval_exp(tree):
         return int(tree[1])
     elif nodetype == "string":
         return tree[1]
+    elif nodetype == "var":
+        return env_lookup(environment, tree[1])
+    elif nodetype == "assign":
+        var=tree[1]
+        val=eval_exp(environment,tree[2])
+        update_env(environment,var,val)
+    
+    
     elif nodetype == "binop":
         left_child = tree[1]
         operator = tree[2]
         right_child = tree[3]
-        left_val = eval_exp(left_child)
-        right_val = eval_exp(right_child)
+        left_val = eval_exp(environment, left_child)
+        right_val = eval_exp(environment, right_child)
         if operator == "+":
             return left_val + right_val
         elif operator == "-":
@@ -141,7 +157,7 @@ def eval_exp(tree):
         x=tree[1]
         # print tree[0]
         # print x
-        print eval_exp(x)
+        print eval_exp(environment, x)
 
             # elif tree[1] 
 
@@ -154,8 +170,9 @@ rubyast = rubyparser.parse(data)
 print rubyast
 
 
+environment = {}
 loopvar=0
 while loopvar!=len(rubyast):
 
-    eval_exp(rubyast[loopvar])
+    # eval_exp(environment, rubyast[loopvar])
     loopvar=loopvar+1

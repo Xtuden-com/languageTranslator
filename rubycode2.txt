@@ -1,2 +1,5 @@
 puts 3
 puts "sdfsd"
+i=90+21
+puts i
+f=[4,45,56]

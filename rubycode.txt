@@ -7,6 +7,8 @@ puts 345
 
 i =13
 j=23.67
+
+array=[3,4,5]
 array.each do |w|
     puts "90"
     puts 898
