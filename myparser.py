@@ -1,7 +1,7 @@
 import mytokens
 import ply.lex as lex
 import ply.yacc as yacc
-
+import re
 start = 'exp'
 
 tokens = (
@@ -19,6 +19,7 @@ tokens = (
         'PUTS',
         'END',
         'STRING',
+        'COMMA',
         'IDENTIFIER',
         'NUMBER',
         'EQUAL',
@@ -60,10 +61,29 @@ def p_exp_puts(p):
     'stmnt : PUTS val'
     p[0] = ("puts",p[2])
 
+def p_exp_array(p):
+    'stmnt : IDENTIFIER EQUAL LEFTBRACKET vals RIGHTBRACKET'
+    p[0] = ("array", p[1], p[4] )
+
+def p_exp_nums(p):
+    'vals : arrvals'
+    p[0] = p[1]
+    
+def p_exp_num(p):
+    'vals : '
+    p[0] = []
+
+def p_exp_valus(p):
+    'arrvals : val COMMA arrvals'
+    p[0] = [p[1]]+ p[3]
+    
+def p_exp_arrval(p):
+    'arrvals : val'
+    p[0]=[p[1]]
 
 def p_exp_iter(p):
     'stmnt : ARRAYEACH DO LOOPVAR stmnts END'
-    p[0]=("arrayeach",p[3],p[4])
+    p[0]=("arrayeach",p[1],p[3],p[4])
 
 def p_exp_for(p):
     'stmnt : FOR IDENTIFIER IN NUMBER DOTS NUMBER stmnts END'
@@ -127,10 +147,8 @@ def env_lookup(environment, var):
         return None
 
 def eval_exp(environment, tree):
-    # ("number" , "5")
-    # ("binop" , ... , "+", ... )
     nodetype = tree[0]
-    # print nodetype
+
     if nodetype == "number":
         return int(tree[1])
     elif nodetype == "string":
@@ -142,7 +160,26 @@ def eval_exp(environment, tree):
         val=eval_exp(environment,tree[2])
         update_env(environment,var,val)
     
-    
+    elif nodetype == "array":
+        temp=[]
+        treelen=len(tree[2])
+        lvar=0
+        
+        while lvar!=treelen:
+            temp.append( eval_exp(environment, tree[2][lvar]) )
+            
+            lvar=lvar+1
+        # print temp
+        update_env(environment, tree[1], temp)
+    elif nodetype == "arrayeach":
+        # print tree[1]
+        temp=re.search( '[A-Za-z][A-Za-z_]*',tree[1]).group(0)
+        # print temp
+        arrayvalues = env_lookup(environment, temp)
+        times=0
+        # while time!=len(arrayvalues):
+            
+        
     elif nodetype == "binop":
         left_child = tree[1]
         operator = tree[2]
@@ -153,6 +190,10 @@ def eval_exp(environment, tree):
             return left_val + right_val
         elif operator == "-":
             return left_val - right_val
+        elif operator == "*":
+            return left_val * right_val
+        elif operator == "/":
+            return left_val / right_val
     elif nodetype =="puts":
         x=tree[1]
         # print tree[0]
@@ -160,8 +201,6 @@ def eval_exp(environment, tree):
         print eval_exp(environment, x)
 
             # elif tree[1] 
-
-
 # here's some code to test with
 rubylexer = lex.lex(module=mytokens)
 rubyparser = yacc.yacc()
@@ -174,5 +213,5 @@ environment = {}
 loopvar=0
 while loopvar!=len(rubyast):
 
-    # eval_exp(environment, rubyast[loopvar])
+    eval_exp(environment, rubyast[loopvar])
     loopvar=loopvar+1

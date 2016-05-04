@@ -2,4 +2,8 @@ puts 3
 puts "sdfsd"
 i=90+21
 puts i
-f=[4,45,56]
+p=[3,4,5]
+
+p.each do |k|
+    puts "bas kardo bas"
+end

@@ -5,9 +5,9 @@ _tabversion = '3.8'
 
 _lr_method = 'LALR'
 
-_lr_signature = '015814CAB2BB569228BDD18F29F5F13F'
+_lr_signature = '9766D4C343EDA945673781E9FFA9FAF9'
     
-_lr_action_items = {'DOTS':([21,],[24,]),'DO':([4,],[14,]),'END':([2,9,10,11,12,13,19,20,22,23,25,26,27,28,],[-4,-3,-10,-6,-9,-11,-4,-5,-12,25,-7,-4,28,-8,]),'FOR':([0,2,6,9,10,11,12,13,19,20,22,25,26,28,],[1,1,1,-3,-10,-6,-9,-11,1,-5,-12,-7,1,-8,]),'PUTS':([0,2,6,9,10,11,12,13,19,20,22,25,26,28,],[3,3,3,-3,-10,-6,-9,-11,3,-5,-12,-7,3,-8,]),'ARRAYEACH':([0,2,6,9,10,11,12,13,19,20,22,25,26,28,],[4,4,4,-3,-10,-6,-9,-11,4,-5,-12,-7,4,-8,]),'NUMBER':([3,16,17,18,24,],[12,12,21,12,26,]),'LOOPVAR':([14,],[19,]),'EQUAL':([7,],[16,]),'IN':([8,],[17,]),'OPERATOR':([10,11,12,13,20,22,],[-10,18,-9,-11,18,18,]),'STRING':([3,16,18,],[10,10,10,]),'IDENTIFIER':([0,1,2,3,6,9,10,11,12,13,16,18,19,20,22,25,26,28,],[7,8,7,13,7,-3,-10,-6,-9,-11,13,13,7,-5,-12,-7,7,-8,]),'$end':([0,2,5,6,9,10,11,12,13,15,20,22,25,28,],[-2,-4,0,-2,-3,-10,-6,-9,-11,-1,-5,-12,-7,-8,]),}
+_lr_action_items = {'DOTS':([22,],[28,]),'DO':([4,],[14,]),'RIGHTBRACKET':([10,12,13,21,23,25,26,27,33,],[-15,-14,-16,-9,-17,-11,-8,31,-10,]),'END':([2,9,10,11,12,13,19,20,23,24,29,31,32,34,35,],[-4,-3,-15,-6,-14,-16,-4,-5,-17,29,-12,-7,-4,35,-13,]),'FOR':([0,2,6,9,10,11,12,13,19,20,23,29,31,32,35,],[1,1,1,-3,-15,-6,-14,-16,1,-5,-17,-12,-7,1,-13,]),'PUTS':([0,2,6,9,10,11,12,13,19,20,23,29,31,32,35,],[3,3,3,-3,-15,-6,-14,-16,3,-5,-17,-12,-7,3,-13,]),'ARRAYEACH':([0,2,6,9,10,11,12,13,19,20,23,29,31,32,35,],[4,4,4,-3,-15,-6,-14,-16,4,-5,-17,-12,-7,4,-13,]),'NUMBER':([3,16,17,18,21,28,30,],[12,12,22,12,12,32,12,]),'LOOPVAR':([14,],[19,]),'EQUAL':([7,],[16,]),'COMMA':([10,12,13,23,25,],[-15,-14,-16,-17,30,]),'LEFTBRACKET':([16,],[21,]),'IN':([8,],[17,]),'OPERATOR':([10,11,12,13,20,23,25,],[-15,18,-14,-16,18,18,18,]),'STRING':([3,16,18,21,30,],[10,10,10,10,10,]),'IDENTIFIER':([0,1,2,3,6,9,10,11,12,13,16,18,19,20,21,23,29,30,31,32,35,],[7,8,7,13,7,-3,-15,-6,-14,-16,13,13,7,-5,13,-17,-12,13,-7,7,-13,]),'$end':([0,2,5,6,9,10,11,12,13,15,20,23,29,31,35,],[-2,-4,0,-2,-3,-15,-6,-14,-16,-1,-5,-17,-12,-7,-13,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'stmnts':([0,2,6,19,26,],[6,9,6,23,27,]),'val':([3,16,18,],[11,20,22,]),'exp':([0,6,],[5,15,]),'stmnt':([0,2,6,19,26,],[2,2,2,2,2,]),}
+_lr_goto_items = {'stmnt':([0,2,6,19,32,],[2,2,2,2,2,]),'exp':([0,6,],[5,15,]),'val':([3,16,18,21,30,],[11,20,23,25,25,]),'arrvals':([21,30,],[26,33,]),'vals':([21,],[27,]),'stmnts':([0,2,6,19,32,],[6,9,6,24,34,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,16 +26,21 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> exp","S'",1,None,None,None),
-  ('exp -> stmnts exp','exp',2,'p_exp_start','myparser.py',34),
-  ('exp -> <empty>','exp',0,'p_exp_empty','myparser.py',39),
-  ('stmnts -> stmnt stmnts','stmnts',2,'p_exp_stmnts','myparser.py',43),
-  ('stmnts -> <empty>','stmnts',0,'p_stmnt_empty','myparser.py',52),
-  ('stmnt -> IDENTIFIER EQUAL val','stmnt',3,'p_exp_assign','myparser.py',56),
-  ('stmnt -> PUTS val','stmnt',2,'p_exp_puts','myparser.py',60),
-  ('stmnt -> ARRAYEACH DO LOOPVAR stmnts END','stmnt',5,'p_exp_iter','myparser.py',65),
-  ('stmnt -> FOR IDENTIFIER IN NUMBER DOTS NUMBER stmnts END','stmnt',8,'p_exp_for','myparser.py',69),
-  ('val -> NUMBER','val',1,'p_exp_val_num','myparser.py',73),
-  ('val -> STRING','val',1,'p_exp_val_str','myparser.py',78),
-  ('val -> IDENTIFIER','val',1,'p_exp_val_id','myparser.py',82),
-  ('val -> val OPERATOR val','val',3,'p_exp_val_op','myparser.py',86),
+  ('exp -> stmnts exp','exp',2,'p_exp_start','myparser.py',35),
+  ('exp -> <empty>','exp',0,'p_exp_empty','myparser.py',40),
+  ('stmnts -> stmnt stmnts','stmnts',2,'p_exp_stmnts','myparser.py',44),
+  ('stmnts -> <empty>','stmnts',0,'p_stmnt_empty','myparser.py',53),
+  ('stmnt -> IDENTIFIER EQUAL val','stmnt',3,'p_exp_assign','myparser.py',57),
+  ('stmnt -> PUTS val','stmnt',2,'p_exp_puts','myparser.py',61),
+  ('stmnt -> IDENTIFIER EQUAL LEFTBRACKET vals RIGHTBRACKET','stmnt',5,'p_exp_array','myparser.py',65),
+  ('vals -> arrvals','vals',1,'p_exp_nums','myparser.py',69),
+  ('vals -> <empty>','vals',0,'p_exp_num','myparser.py',73),
+  ('arrvals -> val COMMA arrvals','arrvals',3,'p_exp_valus','myparser.py',77),
+  ('arrvals -> val','arrvals',1,'p_exp_arrval','myparser.py',81),
+  ('stmnt -> ARRAYEACH DO LOOPVAR stmnts END','stmnt',5,'p_exp_iter','myparser.py',85),
+  ('stmnt -> FOR IDENTIFIER IN NUMBER DOTS NUMBER stmnts END','stmnt',8,'p_exp_for','myparser.py',89),
+  ('val -> NUMBER','val',1,'p_exp_val_num','myparser.py',93),
+  ('val -> STRING','val',1,'p_exp_val_str','myparser.py',98),
+  ('val -> IDENTIFIER','val',1,'p_exp_val_id','myparser.py',102),
+  ('val -> val OPERATOR val','val',3,'p_exp_val_op','myparser.py',106),
 ]
